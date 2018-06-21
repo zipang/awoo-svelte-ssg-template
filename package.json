@@ -1,0 +1,37 @@
+{
+	"name": "avoo-svelte-ssg-template",
+	"version": "1.0.0",
+	"description": "A template for a basic site generator build with awoo and svelte.",
+	"main": "build/build.js",
+	"repository": "https://github.com/zipang/omy-ssg",
+	"author": "zipang",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {
+		"@fortawesome/fontawesome": "^1.1.8",
+		"@fortawesome/fontawesome-free-solid": "^5.0.13",
+		"awoo": "^4.0.2",
+		"awoo-layouts": "^1.0.6",
+		"awoo-matter": "^1.1.1",
+		"cssnano": "^3.10.0",
+		"less": "^3.0.4",
+		"less-plugin-clean-css": "^1.5.1",
+		"node-watch": "^0.5.8",
+		"postcss-cli": "^5.0.0",
+		"remark": "^9.0.0",
+		"svelte": "^2.7.2",
+		"sync-files": "^1.0.3",
+		"yaml-front-matter": "^4.0.0",
+		"yargs": "^11.0.0"
+	},
+	"scripts": {
+		"clean": "rm -Rf public",
+		"build-css": "lessc --clean-css theme/style/main.less > public/assets/css/main.css",
+		"sync-assets": "sync-files theme/assets public/assets && sync-files theme/admin public/admin && sync-files media_upload public/medias && cp theme/*.* public/",
+		"build": "yarn run clean && build/build.js && yarn run sync-assets && yarn run build-css && ls -l public/assets/css",
+		"minify": "minify:css && minify:js",
+		"minify:css": "postcss public/assets/css/main.css > public/assets/css/styles.min.css",
+		"minify:js": "cat public/assets/js/plugins.js public/assets/js/animations.js public/assets/js/forms.js",
+		"watch": "sync-files --watch theme/assets public/assets && sync-files --watch theme/admin public/admin && sync-files --watch theme/config.yml public/config.yml"
+	}
+}

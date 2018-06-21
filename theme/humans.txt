@@ -1,0 +1,47 @@
+/        |/      |/       \  /      \ /  |       /      \ /  \  /  |      /  |       /      \ /       \  /      \
+$$$$$$$$/ $$$$$$/ $$$$$$$  |/$$$$$$  |$$ |      /$$$$$$  |$$  \ $$ |      $$ |      /$$$$$$  |$$$$$$$  |/$$$$$$  |
+$$ |__      $$ |  $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |$$$  \$$ |      $$ |      $$ |__$$ |$$ |__$$ |$$ \__$$/
+$$    |     $$ |  $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |$$$$  $$ |      $$ |      $$    $$ |$$    $$< $$      \
+$$$$$/      $$ |  $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |$$ $$ $$ |      $$ |      $$$$$$$$ |$$$$$$$  | $$$$$$  |
+$$ |_____  _$$ |_ $$ |__$$ |$$ \__$$ |$$ |_____ $$ \__$$ |$$ |$$$$ |      $$ |_____ $$ |  $$ |$$ |__$$ |/  \__$$ |
+$$       |/ $$   |$$    $$/ $$    $$/ $$       |$$    $$/ $$ | $$$ |      $$       |$$ |  $$ |$$    $$/ $$    $$/
+$$$$$$$$/ $$$$$$/ $$$$$$$/   $$$$$$/  $$$$$$$$/  $$$$$$/  $$/   $$/       $$$$$$$$/ $$/   $$/ $$$$$$$/   $$$$$$/
+
+The humans.txt file explains the team, technology,
+and graphic assets behind this site.
+
+_______________________________________________________________________________
+
+TEAM
+This website was hand-crafted by EIDOLON LABS (a one persone LABORATORY).
+
+Christophe Desguez
+Design, Content & web development
+https://github.com/zipang
+
+_______________________________________________________________________________
+
+TECHNOLOGY
+
+Metalsmith - Static site generator
+metalsmith.io
+
+LESS - CSS pre-processor
+lesscss.org
+
+Handlebars - Semantic templates
+handlebarsjs.com
+
+Github - Code collaboration
+github.com
+
+JS libraries include:
+* jQuery
+* velocity
+* aos
+
+_______________________________________________________________________________
+
+FONTS
+
+Roboto Slab

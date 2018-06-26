@@ -20,7 +20,7 @@ const _DEFAULTS = {
 	layoutsExt: ".html"
 }
 
-function buildSveltePlugin(opts = {}) {
+async function buildSveltePlugin(opts = {}) {
 
 	const conf = Object.assign({}, _DEFAULTS, opts);
 
@@ -47,16 +47,18 @@ function buildSveltePlugin(opts = {}) {
 		return layouts[layoutName];
 	}
 
-	async function renderFile(file) {
+	function renderFile(file, site, debug) {
 		try {
 			let layout = getLayout(file);
-			let metadatas = new Store(
-				Object.assign({}, conf.globals, file.metadata)
-			)
-			file.contents = layout.render(file, metadatas).html;
+			let ctx = {
+				store: new Store(
+					Object.assign({site : site}, file.metadata)
+				)
+			}
+			file.contents = layout.render(file, ctx).html;
 			file.extname = ".html";
 		} catch (err) {
-			console.error(`Loading template for file ${file.path} failed`);
+			debug(`Loading template for file ${file.path} failed`);
 			console.error(err);
 		}
 		return file;
@@ -66,7 +68,10 @@ function buildSveltePlugin(opts = {}) {
 	 * That's the plugin function itself that renders every files
 	 * with the svelte template found in file.metadata.layout
 	 */
-	return files => Promise.all(files.map(renderFile));
+	function svelteRender(files, site, debug) {
+		return files.map(file => renderFile(file, site, debug))
+	}
+	return svelteRender;
 
 }
 

@@ -2,6 +2,12 @@ var path = require("path"),
 	fs = require("fs-extra"),
 	Store = require("svelte/store.umd.js").Store;
 
+/**
+ * Try different paths on an object to access a property that should be here...
+ * @example
+ * @param {Object} obj
+ * @param {Array[String]} paths Every path can be a deep path like : `site.title`
+ */
 function tryPaths(obj, paths) {
 	let val, path;
 	paths = paths.map(p => p.split("."));
@@ -14,12 +20,20 @@ function tryPaths(obj, paths) {
 	return val;
 }
 
+/**
+ * This is the default configuration of our svelte plugin
+ */
 const _DEFAULTS = {
 	layoutsDir: process.cwd() + "/layouts",
 	getLayoutName: file => tryPaths(file, ["layout", "metadata.layout", "data.layout"]),
 	layoutsExt: ".html"
 }
 
+/**
+ * Give us some optional conf and gain a ready-to-use svelte plugin
+ * able to render content files into html through svelte templates
+ * @param {Object} opts
+ */
 async function prepareSveltePlugin(opts = {}) {
 
 	const conf = Object.assign({}, _DEFAULTS, opts);
@@ -75,7 +89,7 @@ async function prepareSveltePlugin(opts = {}) {
 	 * with the svelte template found in file.metadata.layout
 	 */
 	function svelteRender(files, site, debug) {
-		return files.map(file => renderFile(file, site, debug))
+		return files.map(file => renderFile(file, site, debug));
 	}
 	return svelteRender;
 

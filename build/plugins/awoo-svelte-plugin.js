@@ -20,7 +20,7 @@ const _DEFAULTS = {
 	layoutsExt: ".html"
 }
 
-async function buildSveltePlugin(opts = {}) {
+async function prepareSveltePlugin(opts = {}) {
 
 	const conf = Object.assign({}, _DEFAULTS, opts);
 
@@ -39,17 +39,23 @@ async function buildSveltePlugin(opts = {}) {
 
 	const layouts = []; // store for the compiled layouts
 
-	function getLayout(file) {
-		let layoutName = conf.getLayoutName(file);
-		if (!layouts[layoutName]) {
-			layouts[layoutName] = require(path.join(conf.layoutsDir, layoutName + conf.layoutsExt))
+	function getLayout(file, debug) {
+		try {
+			let layoutName = conf.getLayoutName(file);
+			if (!layouts[layoutName]) {
+				layouts[layoutName] = require(path.join(conf.layoutsDir, layoutName + conf.layoutsExt))
+			}
+			return layouts[layoutName];
+
+		} catch (err) {
+			debug(`Loading template for file ${file.path} failed`);
+			throw err;
 		}
-		return layouts[layoutName];
 	}
 
 	function renderFile(file, site, debug) {
+		let layout = getLayout(file, debug);
 		try {
-			let layout = getLayout(file);
 			let ctx = {
 				store: new Store(
 					Object.assign({site : site}, file.metadata)
@@ -75,4 +81,4 @@ async function buildSveltePlugin(opts = {}) {
 
 }
 
-module.exports = buildSveltePlugin;
+module.exports = prepareSveltePlugin;

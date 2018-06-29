@@ -67,15 +67,17 @@ async function prepareSveltePlugin(opts = {}) {
 		}
 	}
 
-	function renderFile(file, site, debug) {
+	function renderFile(file, conf, debug) {
 		let layout = getLayout(file, debug);
 		try {
 			let ctx = {
-				store: new Store(
-					Object.assign({site : site}, file.metadata)
-				)
+				store: new Store({site : conf}) // pass the initial configuration object where we stored site informations
 			}
-			file.contents = layout.render(file, ctx).html;
+
+			debug(`rendering file ${file.metadata.title} in site ${conf.title}`)
+			debug(JSON.stringify(conf))
+			let data = Object.assign({ content: file.contents }, file.metadata )
+			file.contents = layout.render(data, ctx).html;
 			file.extname = ".html";
 		} catch (err) {
 			debug(`Loading template for file ${file.path} failed`);

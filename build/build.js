@@ -16,7 +16,7 @@ vavawoo.build(site =>
 		destination: path.join(__dirname, "../public/")
 	})
 	//.use("excludeJunkFiles", files => files.filter(file => file.extname === '.md'))
-	.use("awoo-matter", matter, {test: [".md"]})
+	.use("awoo-matter", matter, {filter: file => file.extname === ".md"})
 	.use("markdown", markdown, {test: [".md"]})
 	.use("svelte", svelte, {
 		layoutsDir: path.join(__dirname, "../theme/layouts/")

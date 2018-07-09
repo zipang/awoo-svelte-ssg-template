@@ -74,7 +74,7 @@ async function prepareSveltePlugin(opts = {}) {
 				store: new Store({site : siteConf}) // pass the initial configuration object where we stored site informations
 			}
 
-			let data = Object.assign({ content: file.contents }, file.metadata )
+			let data = Object.assign({ content: file.contents }, file.metadata, file.data )
 			debug(`rendering file ${data.title} in site ${siteConf.title}`)
 			file.contents = layout.render(data, ctx).html;
 			file.extname = ".html";

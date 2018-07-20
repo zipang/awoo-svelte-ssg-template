@@ -14,7 +14,7 @@ function tryPaths(obj, paths) {
 
 	while ( (path = paths.shift()) && !val ) {
 		// path is an array of property names
-		let o = path.reduce((o, key) => (key in o) ? o[key] : undefined, obj);
+		let o = path.reduce((o, key) => o && (key in o) ? o[key] : undefined, obj);
 		if (typeof o !== undefined) val = o;
 	}
 	return val;
@@ -56,6 +56,9 @@ async function prepareSveltePlugin(opts = {}) {
 	function getLayout(file, debug) {
 		try {
 			let layoutName = conf.getLayoutName(file);
+			if (!layoutName) {
+				return false
+			}
 			if (!layouts[layoutName]) {
 				layouts[layoutName] = require(path.join(conf.layoutsDir, layoutName + conf.layoutsExt))
 			}
@@ -69,6 +72,12 @@ async function prepareSveltePlugin(opts = {}) {
 
 	function renderFile(file, siteConf, debug) {
 		let layout = getLayout(file, debug);
+
+		if (!layout) {
+			debug(`No layout for file ${file.basename} (skipped)`)
+			return file
+		}
+
 		try {
 			let ctx = {
 				store: new Store({site : siteConf}) // pass the initial configuration object where we stored site informations
@@ -82,6 +91,7 @@ async function prepareSveltePlugin(opts = {}) {
 			debug(`Loading template for file ${file.path} failed`);
 			console.error(err);
 		}
+
 		return file;
 	}
 
@@ -90,7 +100,8 @@ async function prepareSveltePlugin(opts = {}) {
 	 * with the svelte template found in file.metadata.layout
 	 */
 	function svelteRender(files, site, debug) {
-		return files.map(file => renderFile(file, site, debug));
+		const renderedFiles = files.map(file => renderFile(file, site, debug));
+		return renderedFiles
 	}
 	return svelteRender;
 
